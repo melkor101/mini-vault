@@ -1,6 +1,7 @@
 import { ScrollView, View, Text, SafeAreaView, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { AppColors } from '@/constants/theme';
+import { useRewardsStore } from '@/store/rewards-store';
 import { rewardsStyles } from './rewards.styles';
 
 type Rarity = 'Common' | 'Rare' | 'Epic' | 'Legendary';
@@ -23,9 +24,6 @@ const RARITY_CONFIG: Record<Rarity, { color: string; bg: string }> = {
 };
 
 const TOTAL_XP = 6000;
-const CURRENT_XP = 950;
-const LEVEL = 4;
-const PROGRESS_PCT = Math.round((CURRENT_XP / TOTAL_XP) * 100);
 
 const unlockedAchievements: Achievement[] = [
   {
@@ -93,11 +91,16 @@ const unlockedAchievements: Achievement[] = [
   },
 ];
 
-const UNLOCKED_COUNT = 7;
-const REMAINING_COUNT = 11;
 const TOTAL_COUNT = 18;
 
 const RewardsScreen = () => {
+  const { xp, level, unlockedIds } = useRewardsStore();
+  const CURRENT_XP = xp;
+  const LEVEL = level;
+  const PROGRESS_PCT = Math.round((CURRENT_XP / TOTAL_XP) * 100);
+  const UNLOCKED_COUNT = unlockedIds.length;
+  const REMAINING_COUNT = TOTAL_COUNT - UNLOCKED_COUNT;
+
   return (
     <SafeAreaView style={rewardsStyles.screen}>
       <ScrollView

@@ -1,12 +1,13 @@
 import { ScrollView, View, Text, SafeAreaView, TextInput, TouchableOpacity, Image } from 'react-native';
 import { useRouter } from 'expo-router';
 import { AppColors } from '@/constants/theme';
-import { mockMiniatures } from '@/constants/mock-miniatures';
+import { useMiniatureStore } from '@/store/miniature-store';
 import { MiniatureCard } from '@/components/miniature-card/miniature-card';
 import { collectionStyles } from './collection.styles';
 
 const CollectionScreen = () => {
   const router = useRouter();
+  const { miniatures } = useMiniatureStore();
 
   return (
     <SafeAreaView style={collectionStyles.screen}>
@@ -44,10 +45,10 @@ const CollectionScreen = () => {
         </View>
 
         <View style={collectionStyles.countRow}>
-          <Text style={collectionStyles.countText}>• {mockMiniatures.length} of {mockMiniatures.length} miniatures</Text>
+          <Text style={collectionStyles.countText}>• {miniatures.length} of {miniatures.length} miniatures</Text>
         </View>
 
-        {mockMiniatures.map((item) => (
+        {miniatures.map((item) => (
           <MiniatureCard
             key={item.id}
             name={item.name}

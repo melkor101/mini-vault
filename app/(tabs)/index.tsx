@@ -7,41 +7,14 @@ import { ProgressMetrics } from '@/components/progress-metrics/progress-metrics'
 import { WeeklyStatCard } from '@/components/weekly-stat-card/weekly-stat-card';
 import { RecentActivityList } from '@/components/recent-activity-list/recent-activity-list';
 import { AppColors } from '@/constants/theme';
+import { useMiniatureStore } from '@/store/miniature-store';
 import { indexStyles } from './index.styles';
 
-const mockData = {
-  total: 4,
-  painted: 1,
-  inProgress: 1,
-  pipeline: { unpainted: 1, primed: 1, painting: 1, done: 1 },
-  weeklyUpdated: 4,
-  weeklyFinished: 1,
-  recentActivity: [
-    {
-      name: 'Necron Warriors',
-      brand: 'Games Workshop',
-      color: AppColors.unpainted,
-      statusColor: AppColors.done,
-    },
-    {
-      name: 'Dragon Miniature',
-      brand: 'Reaper Miniatures',
-      color: AppColors.primed,
-      statusColor: AppColors.painting,
-    },
-    {
-      name: 'Ork Boyz Squad',
-      brand: 'Games Workshop',
-      color: AppColors.painting,
-      statusColor: AppColors.weeklyPink,
-    },
-    {
-      name: 'Space Marine Captain',
-      brand: 'Games Workshop',
-      color: AppColors.done,
-      statusColor: AppColors.weeklyPink,
-    },
-  ],
+const STATUS_COLORS: Record<string, string> = {
+  completed: AppColors.done,
+  inProgress: AppColors.painting,
+  primed: AppColors.primed,
+  unpainted: AppColors.unpainted,
 };
 
 const BOX_BARS = [
@@ -51,7 +24,27 @@ const BOX_BARS = [
 ];
 
 const HomeScreen = () => {
-  const { total, painted, inProgress, pipeline } = mockData;
+  const { miniatures } = useMiniatureStore();
+
+  const total = miniatures.length;
+  const painted = miniatures.filter((m) => m.status === 'completed').length;
+  const inProgress = miniatures.filter((m) => m.status === 'inProgress').length;
+  const pipeline = {
+    unpainted: miniatures.filter((m) => m.status === 'unpainted').length,
+    primed: miniatures.filter((m) => m.status === 'primed').length,
+    painting: miniatures.filter((m) => m.status === 'inProgress').length,
+    done: miniatures.filter((m) => m.status === 'completed').length,
+  };
+  const recentActivity = [...miniatures]
+    .reverse()
+    .slice(0, 4)
+    .map((m) => ({
+      name: m.name,
+      brand: m.brand,
+      color: STATUS_COLORS[m.status] ?? AppColors.unpainted,
+      statusColor: STATUS_COLORS[m.status] ?? AppColors.unpainted,
+    }));
+
   const pct = (n: number) => (total > 0 ? Math.round((n / total) * 100) : 0);
 
   return (
@@ -125,20 +118,20 @@ const HomeScreen = () => {
           <WeeklyStatCard
             icon="⏰"
             title="Updated This Week"
-            count={mockData.weeklyUpdated}
+            count={total}
             subtitle="miniatures"
             gradientColors={[AppColors.weeklyPurple, AppColors.primary]}
           />
           <WeeklyStatCard
             icon="◎"
             title="Finished This Week"
-            count={mockData.weeklyFinished}
+            count={painted}
             subtitle="completed"
             gradientColors={[AppColors.weeklyPink, AppColors.gradientPinkLight]}
           />
         </View>
 
-        <RecentActivityList items={mockData.recentActivity} />
+        <RecentActivityList items={recentActivity} />
       </ScrollView>
     </SafeAreaView>
   );

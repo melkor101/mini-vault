@@ -1,19 +1,9 @@
 import { ScrollView, View, Text, SafeAreaView, TouchableOpacity, Image } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { AppColors } from '@/constants/theme';
-import { mockMiniatures } from '@/constants/mock-miniatures';
+import { useBoxStore } from '@/store/box-store';
+import { useMiniatureStore } from '@/store/miniature-store';
 import { boxItemStyles } from './[id].styles';
-
-type BoxMeta = {
-  name: string;
-  color: string;
-};
-
-const BOX_META: Record<string, BoxMeta> = {
-  '1': { name: 'Box A', color: AppColors.boxRed },
-  '2': { name: 'Box B', color: AppColors.boxBlue },
-  '3': { name: 'Box C', color: AppColors.boxGreen },
-};
 
 const STATUS_CONFIG = {
   completed:  { label: 'Completed',   icon: '✓', color: AppColors.done },
@@ -25,9 +15,11 @@ const STATUS_CONFIG = {
 const BoxItemScreen = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
+  const { boxes } = useBoxStore();
+  const { miniatures: allMiniatures } = useMiniatureStore();
 
-  const box = BOX_META[id] ?? BOX_META['1'];
-  const miniatures = mockMiniatures.filter((m) => m.storageBox === box.name);
+  const box = boxes.find((b) => b.id === id) ?? boxes[0];
+  const miniatures = allMiniatures.filter((m) => m.storageBox === box.name);
 
   return (
     <SafeAreaView style={boxItemStyles.screen}>

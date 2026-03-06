@@ -2,7 +2,7 @@ import { ScrollView, View, Text, SafeAreaView, TouchableOpacity, Image } from 'r
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import { AppColors } from '@/constants/theme';
-import { mockMiniatures } from '@/constants/mock-miniatures';
+import { useMiniatureStore } from '@/store/miniature-store';
 import { miniatureDetailStyles } from './[id].styles';
 
 
@@ -16,7 +16,8 @@ const STATUS_CONFIG = {
 const MiniatureDetailScreen = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
-  const miniature = mockMiniatures.find((m) => m.id === id) ?? mockMiniatures[0];
+  const { miniatures } = useMiniatureStore();
+  const miniature = miniatures.find((m) => m.id === id) ?? miniatures[0];
   const statusCfg = STATUS_CONFIG[miniature.status];
 
   return (

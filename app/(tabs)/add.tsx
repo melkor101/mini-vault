@@ -10,8 +10,16 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { addStyles } from './add.styles';
+import { useMiniatureStore, MiniatureStatus } from '@/store/miniature-store';
 
 const PAINT_STATUS_OPTIONS = ['Unpainted', 'Primed', 'In Progress', 'Completed'];
+
+const STATUS_MAP: Record<string, MiniatureStatus> = {
+  Unpainted: 'unpainted',
+  Primed: 'primed',
+  'In Progress': 'inProgress',
+  Completed: 'completed',
+};
 const STORAGE_BOX_OPTIONS = ['Box A', 'Box B', 'Box C'];
 
 type FormState = {
@@ -25,6 +33,7 @@ type FormState = {
 
 const AddScreen = () => {
   const router = useRouter();
+  const { addMiniature } = useMiniatureStore();
   const [form, setForm] = useState<FormState>({
     name: '',
     manufacturer: '',
@@ -45,6 +54,14 @@ const AddScreen = () => {
   };
 
   const handleSubmit = () => {
+    if (!form.name.trim()) return;
+    addMiniature({
+      name: form.name,
+      brand: form.manufacturer,
+      type: form.type,
+      status: STATUS_MAP[form.paintStatus] ?? 'unpainted',
+      storageBox: form.storageBox,
+    });
     router.back();
   };
 
