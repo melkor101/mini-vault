@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { AppColors } from '@/constants/theme';
 
-export const indexStyles = StyleSheet.create({
+export const homeStyles = StyleSheet.create({
   screen: {
     flex: 1,
     backgroundColor: AppColors.background,

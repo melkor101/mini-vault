@@ -9,7 +9,7 @@ import { WeeklyStatCard } from '@/components/weekly-stat-card/weekly-stat-card';
 import { RecentActivityList } from '@/components/recent-activity-list/recent-activity-list';
 import { AppColors } from '@/constants/theme';
 import { useMiniatureStore } from '@/store/miniature-store';
-import { indexStyles } from './index.styles';
+import { homeStyles } from './home.styles';
 
 const STATUS_COLORS: Record<string, string> = {
   completed: AppColors.done,
@@ -49,20 +49,20 @@ const HomeScreen = () => {
   const pct = (n: number) => (total > 0 ? Math.round((n / total) * 100) : 0);
 
   return (
-    <SafeAreaView style={indexStyles.screen}>
+    <SafeAreaView style={homeStyles.screen}>
       <ScrollView
-        style={indexStyles.screen}
-        contentContainerStyle={indexStyles.scrollContent}
+        style={homeStyles.screen}
+        contentContainerStyle={homeStyles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        <View style={indexStyles.header}>
-          <Image source={require('@/assets/images/logo.png')} style={indexStyles.appIconImage} />
-          <Text style={indexStyles.appTitle}>MiniVault</Text>
+        <View style={homeStyles.header}>
+          <Image source={require('@/assets/images/logo.png')} style={homeStyles.appIconImage} />
+          <Text style={homeStyles.appTitle}>MiniVault</Text>
         </View>
 
         <CollectionHeroCard total={total} painted={painted} inProgress={inProgress} />
 
-        <View style={indexStyles.statsRow}>
+        <View style={homeStyles.statsRow}>
           <StatCard
             title="Completed"
             count={painted}
@@ -77,9 +77,9 @@ const HomeScreen = () => {
           />
         </View>
 
-        <View style={indexStyles.midRow}>
-          <View style={indexStyles.midCard}>
-            <Text style={indexStyles.midCardTitle}>By Status</Text>
+        <View style={homeStyles.midRow}>
+          <View style={homeStyles.midCard}>
+            <Text style={homeStyles.midCardTitle}>By Status</Text>
             <StatusDonut
               raw={pipeline.unpainted}
               primed={pipeline.primed}
@@ -87,17 +87,17 @@ const HomeScreen = () => {
               done={pipeline.done}
             />
           </View>
-          <View style={indexStyles.midCard}>
-            <Text style={indexStyles.midCardTitle}>Boxes</Text>
-            <View style={indexStyles.barsRow}>
+          <View style={homeStyles.midCard}>
+            <Text style={homeStyles.midCardTitle}>Boxes</Text>
+            <View style={homeStyles.barsRow}>
               {BOX_BARS.map((bar, i) => (
                 <View
                   key={i}
-                  style={[indexStyles.bar, { height: bar.height, backgroundColor: bar.color }]}
+                  style={[homeStyles.bar, { height: bar.height, backgroundColor: bar.color }]}
                 />
               ))}
             </View>
-            <Text style={indexStyles.boxesCount}>3 containers</Text>
+            <Text style={homeStyles.boxesCount}>3 containers</Text>
           </View>
         </View>
 
@@ -115,7 +115,7 @@ const HomeScreen = () => {
           primedReady={pct(pipeline.primed)}
         />
 
-        <View style={indexStyles.weeklyRow}>
+        <View style={homeStyles.weeklyRow}>
           <WeeklyStatCard
             icon="⏰"
             title="Updated This Week"

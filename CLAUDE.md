@@ -47,6 +47,22 @@ New screens are added by creating files in `app/`. Nested groups use parentheses
 
 `@/` maps to the project root (configured in `tsconfig.json`). Use `@/components/...`, `@/hooks/...`, etc. for all internal imports.
 
+### File and Folder Naming
+
+Components live in a folder named after them, with the main file sharing that name:
+
+```
+components/my-component/my-component.tsx
+components/my-component/my-component.styles.ts
+```
+
+Route screens in `app/` live in a named folder with `index.tsx` as the entry (Expo Router requirement) and the styles file named after the folder:
+
+```
+app/(tabs)/collection/index.tsx
+app/(tabs)/collection/collection.styles.ts
+```
+
 ### Styles
 
 Always put styles in a separate file named `component-name.styles.ts`, co-located with the component. Export styles as a named const using the component name as a prefix:
