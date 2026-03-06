@@ -1,4 +1,5 @@
-import { ScrollView, View, Text, SafeAreaView, TouchableOpacity, Image } from 'react-native';
+import { ScrollView, View, Text, TouchableOpacity, Image } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { AppColors } from '@/constants/theme';
 import { useBoxStore } from '@/store/box-store';
