@@ -19,7 +19,7 @@ export default function RootLayout() {
         <Stack.Screen name="miniature/[id]" options={{ headerShown: false }} />
         <Stack.Screen name="box/[id]" options={{ headerShown: false }} />
       </Stack>
-      <StatusBar style="auto" />
+      <StatusBar style="dark" />
     </ThemeProvider>
   );
 }

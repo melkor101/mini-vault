@@ -1,4 +1,5 @@
-import { ScrollView, View, Text, SafeAreaView, TouchableOpacity, Image } from 'react-native';
+import { ScrollView, View, Text, TouchableOpacity, Image } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { useBoxStore } from '@/store/box-store';
 import { useMiniatureStore } from '@/store/miniature-store';
@@ -12,7 +13,7 @@ const BoxesScreen = () => {
   const unplacedBoxes = boxes.filter((b) => b.locationId === null);
 
   return (
-    <SafeAreaView style={boxesStyles.screen}>
+    <SafeAreaView style={boxesStyles.screen} edges={['top']}>
       <ScrollView
         style={boxesStyles.screen}
         contentContainerStyle={boxesStyles.scrollContent}

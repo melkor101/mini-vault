@@ -1,4 +1,5 @@
-import { ScrollView, View, Text, SafeAreaView, TouchableOpacity, Image } from 'react-native';
+import { ScrollView, View, Text, TouchableOpacity, Image } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import { AppColors } from '@/constants/theme';
@@ -21,7 +22,7 @@ const MiniatureDetailScreen = () => {
   const statusCfg = STATUS_CONFIG[miniature.status];
 
   return (
-    <SafeAreaView style={miniatureDetailStyles.screen}>
+    <SafeAreaView style={miniatureDetailStyles.screen} edges={['top']}>
       <ScrollView
         style={miniatureDetailStyles.screen}
         contentContainerStyle={miniatureDetailStyles.scrollContent}
