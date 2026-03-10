@@ -1,5 +1,4 @@
-import { ScrollView, View, Text, TouchableOpacity, Image } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { ScrollView, View, Text, SafeAreaView, TouchableOpacity, Image } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useBoxStore } from '@/store/box-store';
 import { useMiniatureStore } from '@/store/miniature-store';

@@ -1,5 +1,4 @@
-import { ScrollView, View, Text, Image } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { ScrollView, View, Text, SafeAreaView, Image } from 'react-native';
 import { CollectionHeroCard } from '@/components/collection-hero-card/collection-hero-card';
 import { StatCard } from '@/components/stat-card/stat-card';
 import { StatusDonut } from '@/components/status-donut/status-donut';

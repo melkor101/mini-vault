@@ -1,5 +1,4 @@
-import { ScrollView, View, Text, Image } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { ScrollView, View, Text, SafeAreaView, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { AppColors } from '@/constants/theme';
 import { useRewardsStore } from '@/store/rewards-store';
