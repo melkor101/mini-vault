@@ -27,7 +27,11 @@ const TabLayout = () => {
       }}
     >
       <Tabs.Screen
-        name="home"
+        name="index"
+        options={{ href: null }}
+      />
+      <Tabs.Screen
+        name="home/index"
         options={{
           title: 'Home',
           tabBarIcon: ({ color }) => (
@@ -36,7 +40,7 @@ const TabLayout = () => {
         }}
       />
       <Tabs.Screen
-        name="collection"
+        name="collection/index"
         options={{
           title: 'Collection',
           tabBarIcon: ({ color }) => (
@@ -45,14 +49,14 @@ const TabLayout = () => {
         }}
       />
       <Tabs.Screen
-        name="add"
+        name="add/index"
         options={{
           title: '',
           tabBarButton: (props) => <FabTabButton {...props} />,
         }}
       />
       <Tabs.Screen
-        name="boxes"
+        name="boxes/index"
         options={{
           title: 'Boxes',
           tabBarIcon: ({ color }) => (
@@ -61,7 +65,7 @@ const TabLayout = () => {
         }}
       />
       <Tabs.Screen
-        name="rewards"
+        name="rewards/index"
         options={{
           title: 'Rewards',
           tabBarIcon: ({ color }) => (

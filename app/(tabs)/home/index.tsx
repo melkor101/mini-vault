@@ -9,7 +9,7 @@ import { WeeklyStatCard } from '@/components/weekly-stat-card/weekly-stat-card';
 import { RecentActivityList } from '@/components/recent-activity-list/recent-activity-list';
 import { AppColors } from '@/constants/theme';
 import { useMiniatureStore } from '@/store/miniature-store';
-import { homeStyles } from './home.styles';
+import { homeStyles } from '@/styles/tabs/home.styles';
 
 const STATUS_COLORS: Record<string, string> = {
   completed: AppColors.done,
@@ -49,7 +49,7 @@ const HomeScreen = () => {
   const pct = (n: number) => (total > 0 ? Math.round((n / total) * 100) : 0);
 
   return (
-    <SafeAreaView style={homeStyles.screen}>
+    <SafeAreaView style={homeStyles.screen} edges={['top']}>
       <ScrollView
         style={homeStyles.screen}
         contentContainerStyle={homeStyles.scrollContent}

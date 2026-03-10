@@ -4,7 +4,7 @@ import { useRouter } from 'expo-router';
 import { AppColors } from '@/constants/theme';
 import { useMiniatureStore } from '@/store/miniature-store';
 import { MiniatureCard } from '@/components/miniature-card/miniature-card';
-import { collectionStyles } from './collection.styles';
+import { collectionStyles } from '@/styles/tabs/collection.styles';
 
 const CollectionScreen = () => {
   const router = useRouter();

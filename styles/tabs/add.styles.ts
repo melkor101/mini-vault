@@ -172,3 +172,4 @@ export const addStyles = StyleSheet.create({
     color: AppColors.textSecondary,
   },
 });
+

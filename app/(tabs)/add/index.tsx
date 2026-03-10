@@ -3,13 +3,13 @@ import {
   ScrollView,
   View,
   Text,
-  SafeAreaView,
   TextInput,
   TouchableOpacity,
   Image,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-import { addStyles } from './add.styles';
+import { addStyles } from '@/styles/tabs/add.styles';
 import { useMiniatureStore, MiniatureStatus } from '@/store/miniature-store';
 
 const PAINT_STATUS_OPTIONS = ['Unpainted', 'Primed', 'In Progress', 'Completed'];
@@ -70,7 +70,7 @@ const AddScreen = () => {
   };
 
   return (
-    <SafeAreaView style={addStyles.screen}>
+    <SafeAreaView style={addStyles.screen} edges={['top']}>
       <ScrollView
         style={addStyles.screen}
         contentContainerStyle={addStyles.scrollContent}

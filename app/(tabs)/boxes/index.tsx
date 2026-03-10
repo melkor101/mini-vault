@@ -3,7 +3,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { useBoxStore } from '@/store/box-store';
 import { useMiniatureStore } from '@/store/miniature-store';
-import { boxesStyles } from './boxes.styles';
+import { boxesStyles } from '@/styles/tabs/boxes.styles';
 
 const BoxesScreen = () => {
   const router = useRouter();

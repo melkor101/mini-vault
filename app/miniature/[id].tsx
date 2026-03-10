@@ -4,7 +4,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import { AppColors } from '@/constants/theme';
 import { useMiniatureStore } from '@/store/miniature-store';
-import { miniatureDetailStyles } from './[id].styles';
+import { miniatureDetailStyles } from '@/styles/screens/miniature.styles';
 
 
 const STATUS_CONFIG = {

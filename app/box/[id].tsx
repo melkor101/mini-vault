@@ -4,7 +4,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { AppColors } from '@/constants/theme';
 import { useBoxStore } from '@/store/box-store';
 import { useMiniatureStore } from '@/store/miniature-store';
-import { boxItemStyles } from './[id].styles';
+import { boxItemStyles } from '@/styles/screens/box.styles';
 
 const STATUS_CONFIG = {
   completed:  { label: 'Completed',   icon: '✓', color: AppColors.done },

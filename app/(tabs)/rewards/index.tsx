@@ -3,7 +3,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { AppColors } from '@/constants/theme';
 import { useRewardsStore } from '@/store/rewards-store';
-import { rewardsStyles } from './rewards.styles';
+import { rewardsStyles } from '@/styles/tabs/rewards.styles';
 
 type Rarity = 'Common' | 'Rare' | 'Epic' | 'Legendary';
 
