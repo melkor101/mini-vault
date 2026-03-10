@@ -2,7 +2,7 @@ import { ScrollView, View, Text, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { AppColors } from '@/constants/theme';
-import { useRewardsStore } from '@/store/rewards-store';
+import { useRewards } from '@/hooks/use-rewards';
 import { rewardsStyles } from '@/styles/tabs/rewards.styles';
 
 type Rarity = 'Common' | 'Rare' | 'Epic' | 'Legendary';
@@ -95,9 +95,10 @@ const unlockedAchievements: Achievement[] = [
 const TOTAL_COUNT = 18;
 
 const RewardsScreen = () => {
-  const { xp, level, unlockedIds } = useRewardsStore();
-  const CURRENT_XP = xp;
-  const LEVEL = level;
+  const rewards = useRewards();
+  const CURRENT_XP = rewards?.xp ?? 0;
+  const LEVEL = rewards?.level ?? 1;
+  const unlockedIds = rewards?.unlockedIds ?? [];
   const PROGRESS_PCT = Math.round((CURRENT_XP / TOTAL_XP) * 100);
   const UNLOCKED_COUNT = unlockedIds.length;
   const REMAINING_COUNT = TOTAL_COUNT - UNLOCKED_COUNT;

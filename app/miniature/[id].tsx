@@ -3,7 +3,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import { AppColors } from '@/constants/theme';
-import { useMiniatureStore } from '@/store/miniature-store';
+import { useMiniatures } from '@/hooks/use-miniatures';
 import { miniatureDetailStyles } from '@/styles/screens/miniature.styles';
 
 
@@ -17,7 +17,7 @@ const STATUS_CONFIG = {
 const MiniatureDetailScreen = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
-  const { miniatures } = useMiniatureStore();
+  const miniatures = useMiniatures();
   const miniature = miniatures.find((m) => m.id === id) ?? miniatures[0];
   const statusCfg = STATUS_CONFIG[miniature.status];
 

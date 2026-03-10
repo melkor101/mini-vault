@@ -8,7 +8,7 @@ import { ProgressMetrics } from '@/components/progress-metrics/progress-metrics'
 import { WeeklyStatCard } from '@/components/weekly-stat-card/weekly-stat-card';
 import { RecentActivityList } from '@/components/recent-activity-list/recent-activity-list';
 import { AppColors } from '@/constants/theme';
-import { useMiniatureStore } from '@/store/miniature-store';
+import { useMiniatures } from '@/hooks/use-miniatures';
 import { homeStyles } from '@/styles/tabs/home.styles';
 
 const STATUS_COLORS: Record<string, string> = {
@@ -25,7 +25,7 @@ const BOX_BARS = [
 ];
 
 const HomeScreen = () => {
-  const { miniatures } = useMiniatureStore();
+  const miniatures = useMiniatures();
 
   const total = miniatures.length;
   const painted = miniatures.filter((m) => m.status === 'completed').length;

@@ -2,13 +2,13 @@ import { ScrollView, View, Text, TextInput, TouchableOpacity, Image } from 'reac
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { AppColors } from '@/constants/theme';
-import { useMiniatureStore } from '@/store/miniature-store';
+import { useMiniatures } from '@/hooks/use-miniatures';
 import { MiniatureCard } from '@/components/miniature-card/miniature-card';
 import { collectionStyles } from '@/styles/tabs/collection.styles';
 
 const CollectionScreen = () => {
   const router = useRouter();
-  const { miniatures } = useMiniatureStore();
+  const miniatures = useMiniatures();
 
   return (
     <SafeAreaView style={collectionStyles.screen} edges={['top']}>

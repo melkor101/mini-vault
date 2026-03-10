@@ -10,7 +10,8 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { addStyles } from '@/styles/tabs/add.styles';
-import { useMiniatureStore, MiniatureStatus } from '@/store/miniature-store';
+import { addMiniature } from '@/database/miniature-actions';
+import type { MiniatureStatus } from '@/database/miniature-actions';
 
 const PAINT_STATUS_OPTIONS = ['Unpainted', 'Primed', 'In Progress', 'Completed'];
 
@@ -33,7 +34,6 @@ type FormState = {
 
 const AddScreen = () => {
   const router = useRouter();
-  const { addMiniature } = useMiniatureStore();
   const [form, setForm] = useState<FormState>({
     name: '',
     manufacturer: '',
@@ -61,7 +61,7 @@ const AddScreen = () => {
       type: form.type,
       status: STATUS_MAP[form.paintStatus] ?? 'unpainted',
       storageBox: form.storageBox,
-    });
+    }).catch(console.error);
     router.back();
   };
 

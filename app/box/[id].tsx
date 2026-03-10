@@ -2,8 +2,8 @@ import { ScrollView, View, Text, TouchableOpacity, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { AppColors } from '@/constants/theme';
-import { useBoxStore } from '@/store/box-store';
-import { useMiniatureStore } from '@/store/miniature-store';
+import { useBoxes } from '@/hooks/use-boxes';
+import { useMiniatures } from '@/hooks/use-miniatures';
 import { boxItemStyles } from '@/styles/screens/box.styles';
 
 const STATUS_CONFIG = {
@@ -16,8 +16,8 @@ const STATUS_CONFIG = {
 const BoxItemScreen = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
-  const { boxes } = useBoxStore();
-  const { miniatures: allMiniatures } = useMiniatureStore();
+  const boxes = useBoxes();
+  const allMiniatures = useMiniatures();
 
   const box = boxes.find((b) => b.id === id) ?? boxes[0];
   const miniatures = allMiniatures.filter((m) => m.storageBox === box.name);
