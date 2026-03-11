@@ -11,23 +11,35 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { addStyles } from '@/styles/tabs/add.styles';
 import { addMiniature } from '@/database/miniature-actions';
-import type { MiniatureStatus } from '@/database/miniature-actions';
+import { PaintStatusEnum } from '@/database/models/miniature.model';
 
-const PAINT_STATUS_OPTIONS = ['Unpainted', 'Primed', 'In Progress', 'Completed'];
+const BRAND_OPTIONS = [
+  'Games Workshop',
+  'Reaper Miniatures',
+  'Privateer Press',
+  'Mantic Games',
+  'Corvus Belli',
+  'Warlord Games',
+  'Battlefront Miniatures',
+  'Wyrd Miniatures',
+  'Modiphius Entertainment',
+  'Para Bellum Wargames',
+];
 
-const STATUS_MAP: Record<string, MiniatureStatus> = {
-  Unpainted: 'unpainted',
-  Primed: 'primed',
-  'In Progress': 'inProgress',
-  Completed: 'completed',
-};
+const PAINT_STATUS_OPTIONS: { label: string; value: PaintStatusEnum }[] = [
+  { label: 'Backlog', value: PaintStatusEnum.Backlog },
+  { label: 'Unpainted', value: PaintStatusEnum.Unpainted },
+  { label: 'Primed', value: PaintStatusEnum.Primed },
+  { label: 'In Progress', value: PaintStatusEnum.InProgress },
+  { label: 'Completed', value: PaintStatusEnum.Completed },
+];
 const STORAGE_BOX_OPTIONS = ['Box A', 'Box B', 'Box C'];
 
 type FormState = {
   name: string;
   manufacturer: string;
   type: string;
-  paintStatus: string;
+  paintStatus: PaintStatusEnum;
   storageBox: string;
   notes: string;
 };
@@ -38,18 +50,23 @@ const AddScreen = () => {
     name: '',
     manufacturer: '',
     type: '',
-    paintStatus: 'Unpainted',
+    paintStatus: PaintStatusEnum.Backlog,
     storageBox: '',
     notes: '',
   });
-  const [openDropdown, setOpenDropdown] = useState<'paintStatus' | 'storageBox' | null>(null);
+  const [openDropdown, setOpenDropdown] = useState<'manufacturer' | 'paintStatus' | 'storageBox' | null>(null);
 
-  const toggleDropdown = (key: 'paintStatus' | 'storageBox') => {
+  const toggleDropdown = (key: 'manufacturer' | 'paintStatus' | 'storageBox') => {
     setOpenDropdown((prev) => (prev === key ? null : key));
   };
 
-  const selectOption = (key: 'paintStatus' | 'storageBox', value: string) => {
+  const selectOption = (key: 'manufacturer' | 'storageBox', value: string) => {
     setForm((prev) => ({ ...prev, [key]: value }));
+    setOpenDropdown(null);
+  };
+
+  const selectPaintStatusEnum = (value: PaintStatusEnum) => {
+    setForm((prev) => ({ ...prev, paintStatus: value }));
     setOpenDropdown(null);
   };
 
@@ -59,7 +76,7 @@ const AddScreen = () => {
       name: form.name,
       brand: form.manufacturer,
       type: form.type,
-      status: STATUS_MAP[form.paintStatus] ?? 'unpainted',
+      status: form.paintStatus,
       storageBox: form.storageBox,
     }).catch(console.error);
     router.back();
@@ -104,13 +121,42 @@ const AddScreen = () => {
 
           <View style={addStyles.fieldGroup}>
             <Text style={addStyles.label}>Manufacturer</Text>
-            <TextInput
-              style={addStyles.input}
-              placeholder="e.g., Games Workshop"
-              placeholderTextColor="#AAA"
-              value={form.manufacturer}
-              onChangeText={(v) => setForm((p) => ({ ...p, manufacturer: v }))}
-            />
+            <TouchableOpacity
+              style={addStyles.pickerButton}
+              onPress={() => toggleDropdown('manufacturer')}
+              activeOpacity={0.7}
+            >
+              <Text style={[addStyles.pickerButtonText, !form.manufacturer && { color: '#AAA' }]}>
+                {form.manufacturer || 'Select a manufacturer'}
+              </Text>
+              <Text style={addStyles.pickerChevron}>
+                {openDropdown === 'manufacturer' ? '▲' : '▾'}
+              </Text>
+            </TouchableOpacity>
+            {openDropdown === 'manufacturer' && (
+              <View style={addStyles.dropdown}>
+                {BRAND_OPTIONS.map((option) => (
+                  <TouchableOpacity
+                    key={option}
+                    style={[
+                      addStyles.dropdownItem,
+                      form.manufacturer === option && addStyles.dropdownItemSelected,
+                    ]}
+                    onPress={() => selectOption('manufacturer', option)}
+                    activeOpacity={0.7}
+                  >
+                    <Text
+                      style={[
+                        addStyles.dropdownItemText,
+                        form.manufacturer === option && addStyles.dropdownItemTextSelected,
+                      ]}
+                    >
+                      {option}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            )}
           </View>
 
           <View style={addStyles.fieldGroup}>
@@ -131,7 +177,9 @@ const AddScreen = () => {
               onPress={() => toggleDropdown('paintStatus')}
               activeOpacity={0.7}
             >
-              <Text style={addStyles.pickerButtonText}>{form.paintStatus}</Text>
+              <Text style={addStyles.pickerButtonText}>
+                {PAINT_STATUS_OPTIONS.find((o) => o.value === form.paintStatus)?.label}
+              </Text>
               <Text style={addStyles.pickerChevron}>
                 {openDropdown === 'paintStatus' ? '▲' : '▾'}
               </Text>
@@ -140,21 +188,21 @@ const AddScreen = () => {
               <View style={addStyles.dropdown}>
                 {PAINT_STATUS_OPTIONS.map((option) => (
                   <TouchableOpacity
-                    key={option}
+                    key={option.value}
                     style={[
                       addStyles.dropdownItem,
-                      form.paintStatus === option && addStyles.dropdownItemSelected,
+                      form.paintStatus === option.value && addStyles.dropdownItemSelected,
                     ]}
-                    onPress={() => selectOption('paintStatus', option)}
+                    onPress={() => selectPaintStatusEnum(option.value)}
                     activeOpacity={0.7}
                   >
                     <Text
                       style={[
                         addStyles.dropdownItemText,
-                        form.paintStatus === option && addStyles.dropdownItemTextSelected,
+                        form.paintStatus === option.value && addStyles.dropdownItemTextSelected,
                       ]}
                     >
-                      {option}
+                      {option.label}
                     </Text>
                   </TouchableOpacity>
                 ))}
@@ -221,7 +269,7 @@ const AddScreen = () => {
             onPress={handleSubmit}
             activeOpacity={0.85}
           >
-            <Text style={addStyles.submitButtonIcon}>✦</Text>
+            <Text style={addStyles.submitButtonIcon}>+</Text>
             <Text style={addStyles.submitButtonText}>Add Miniature</Text>
           </TouchableOpacity>
           <TouchableOpacity

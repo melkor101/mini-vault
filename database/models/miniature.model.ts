@@ -1,7 +1,15 @@
 import { Model } from '@nozbe/watermelondb';
 import { field } from '@nozbe/watermelondb/decorators';
 
-export type MiniatureStatus = 'completed' | 'inProgress' | 'primed' | 'unpainted';
+export enum PaintStatusEnum {
+  Backlog = 'backlog',
+  Unpainted = 'unpainted',
+  Primed = 'primed',
+  InProgress = 'inProgress',
+  Completed = 'completed',
+}
+
+export type MiniatureStatus = PaintStatusEnum;
 
 export type Miniature = {
   id: string;
