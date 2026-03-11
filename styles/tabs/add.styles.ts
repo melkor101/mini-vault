@@ -154,7 +154,9 @@ export const addStyles = StyleSheet.create({
   },
   submitButtonIcon: {
     fontSize: 18,
+    lineHeight: 18,
     color: AppColors.white,
+    fontWeight: '700',
   },
   submitButtonText: {
     fontSize: 16,

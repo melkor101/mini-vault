@@ -9,7 +9,6 @@ import { RewardModel } from './models/reward.model';
 const adapter = new SQLiteAdapter({
   schema: dbSchema,
   dbName: 'minivault',
-  jsi: true,
 });
 
 export const database = new Database({
