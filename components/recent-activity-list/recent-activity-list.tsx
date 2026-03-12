@@ -2,6 +2,7 @@ import { View, Text } from 'react-native';
 import { recentActivityListStyles } from './recent-activity-list.styles';
 
 type ActivityItem = {
+  id: string;
   name: string;
   brand: string;
   color: string;
@@ -21,7 +22,7 @@ export const RecentActivityList = ({ items }: Props) => {
       </View>
 
       {items.map((item, index) => (
-        <View key={item.name}>
+        <View key={item.id}>
           {index > 0 && <View style={recentActivityListStyles.separator} />}
           <View style={recentActivityListStyles.item}>
             <View style={[recentActivityListStyles.thumbnail, { backgroundColor: item.color }]} />

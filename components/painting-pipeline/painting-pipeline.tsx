@@ -32,7 +32,7 @@ export const PaintingPipeline = ({ unpainted, primed, painting, done, total }: P
     <View style={paintingPipelineStyles.container}>
       <View style={paintingPipelineStyles.header}>
         <View style={paintingPipelineStyles.iconCircle}>
-          <Text style={{ fontSize: 18 }}>~</Text>
+          <Text style={paintingPipelineStyles.iconText}>~</Text>
         </View>
         <Text style={paintingPipelineStyles.title}>Painting Pipeline</Text>
       </View>

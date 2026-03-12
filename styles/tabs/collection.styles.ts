@@ -95,4 +95,22 @@ export const collectionStyles = StyleSheet.create({
     fontSize: 13,
     color: AppColors.textSecondary,
   },
+  emptyState: {
+    alignItems: 'center',
+    paddingVertical: 64,
+    gap: 12,
+  },
+  emptyIcon: {
+    fontSize: 48,
+  },
+  emptyTitle: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: AppColors.textPrimary,
+  },
+  emptySubtitle: {
+    fontSize: 14,
+    color: AppColors.textSecondary,
+    textAlign: 'center',
+  },
 });

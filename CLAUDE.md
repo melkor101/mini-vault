@@ -85,7 +85,9 @@ Import and use in the component:
 import { myComponentStyles } from './my-component.styles';
 ```
 
-No inline styles. All styles go through the styles file.
+No inline styles. All styles go through the styles file. This applies everywhere — including `_layout.tsx`, route screens, and one-off `<View style={{ ... }}>` expressions. The only exception is dynamic values that depend on runtime data (e.g. `{ backgroundColor: item.color }`) which cannot be expressed as static StyleSheet entries.
+
+Inline object literals passed to non-`style` props (e.g. `options={{ headerShown: false }}`) must also be extracted to named constants at the top of the file rather than written inline.
 
 ### Component Style
 

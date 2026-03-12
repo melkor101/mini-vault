@@ -12,6 +12,7 @@ import { useMiniatures } from '@/hooks/use-miniatures';
 import { homeStyles } from '@/styles/tabs/home.styles';
 
 const STATUS_COLORS: Record<string, string> = {
+  backlog: AppColors.textSecondary,
   completed: AppColors.done,
   inProgress: AppColors.painting,
   primed: AppColors.primed,
@@ -31,6 +32,7 @@ const HomeScreen = () => {
   const painted = miniatures.filter((m) => m.status === 'completed').length;
   const inProgress = miniatures.filter((m) => m.status === 'inProgress').length;
   const pipeline = {
+    backlog: miniatures.filter((m) => m.status === 'backlog').length,
     unpainted: miniatures.filter((m) => m.status === 'unpainted').length,
     primed: miniatures.filter((m) => m.status === 'primed').length,
     painting: miniatures.filter((m) => m.status === 'inProgress').length,
@@ -40,6 +42,7 @@ const HomeScreen = () => {
     .reverse()
     .slice(0, 4)
     .map((m) => ({
+      id: m.id,
       name: m.name,
       brand: m.brand,
       color: STATUS_COLORS[m.status] ?? AppColors.unpainted,

@@ -36,7 +36,7 @@ export const ProgressMetrics = ({ fullyPainted, paintStarted, primedReady }: Pro
     <View style={progressMetricsStyles.container}>
       <View style={progressMetricsStyles.header}>
         <View style={progressMetricsStyles.iconCircle}>
-          <Text style={{ fontSize: 18 }}>◎</Text>
+          <Text style={progressMetricsStyles.iconText}>◎</Text>
         </View>
         <Text style={progressMetricsStyles.title}>Progress Metrics</Text>
       </View>

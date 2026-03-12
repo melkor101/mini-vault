@@ -1,6 +1,6 @@
 import { View, Text } from 'react-native';
-import { AppColors } from '@/constants/theme';
 import { statusDonutStyles } from './status-donut.styles';
+import {AppColors} from "@/constants/theme";
 
 type Props = {
   raw: number;
@@ -8,10 +8,6 @@ type Props = {
   wip: number;
   done: number;
 };
-
-const DONUT_SIZE = 80;
-const THICKNESS = 14;
-const HOLE_SIZE = DONUT_SIZE - THICKNESS * 2;
 
 const LEGEND = [
   { label: 'Raw', color: AppColors.unpainted },
@@ -25,32 +21,9 @@ export const StatusDonut = ({ raw, primed, wip, done }: Props) => {
 
   return (
     <View style={statusDonutStyles.container}>
-      <View style={[statusDonutStyles.donutOuter, { width: DONUT_SIZE, height: DONUT_SIZE }]}>
-        <View
-          style={[
-            statusDonutStyles.donutRing,
-            {
-              width: DONUT_SIZE,
-              height: DONUT_SIZE,
-              borderRadius: DONUT_SIZE / 2,
-              borderWidth: THICKNESS,
-              borderTopColor: AppColors.unpainted,
-              borderRightColor: AppColors.primed,
-              borderBottomColor: AppColors.painting,
-              borderLeftColor: AppColors.done,
-            },
-          ]}
-        />
-        <View
-          style={[
-            statusDonutStyles.donutHole,
-            {
-              width: HOLE_SIZE,
-              height: HOLE_SIZE,
-              borderRadius: HOLE_SIZE / 2,
-            },
-          ]}
-        >
+      <View style={statusDonutStyles.donutOuter}>
+        <View style={statusDonutStyles.donutRing} />
+        <View style={statusDonutStyles.donutHole}>
           <Text style={statusDonutStyles.centerCount}>{total}</Text>
         </View>
       </View>

@@ -3,7 +3,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { AppColors } from '@/constants/theme';
 import { miniatureCardStyles } from './miniature-card.styles';
 
-type MiniatureStatus = 'completed' | 'inProgress' | 'primed' | 'unpainted';
+type MiniatureStatus = 'backlog' | 'completed' | 'inProgress' | 'primed' | 'unpainted';
 
 type Props = {
   name: string;
@@ -16,6 +16,7 @@ type Props = {
 };
 
 const STATUS_CONFIG = {
+  backlog:    { label: 'Backlog',     icon: '◫',  color: AppColors.unpainted, bg: AppColors.unpaintedBg },
   completed:  { label: 'Completed',   icon: '✓', color: AppColors.done,      bg: AppColors.doneBg },
   inProgress: { label: 'In Progress', icon: '✎', color: AppColors.painting,  bg: AppColors.paintingBg },
   primed:     { label: 'Primed',      icon: '🔥', color: AppColors.primed,    bg: AppColors.primedBg },

@@ -13,6 +13,15 @@ import { addStyles } from '@/styles/tabs/add.styles';
 import { addMiniature } from '@/database/miniature-actions';
 import { PaintStatusEnum } from '@/database/models/miniature.model';
 
+const TYPE_OPTIONS = [
+  'Infantry',
+  'Tank',
+  'Vehicle',
+  'Cavalry',
+  'Monster',
+  'Hero',
+];
+
 const BRAND_OPTIONS = [
   'Games Workshop',
   'Reaper Miniatures',
@@ -54,13 +63,13 @@ const AddScreen = () => {
     storageBox: '',
     notes: '',
   });
-  const [openDropdown, setOpenDropdown] = useState<'manufacturer' | 'paintStatus' | 'storageBox' | null>(null);
+  const [openDropdown, setOpenDropdown] = useState<'manufacturer' | 'type' | 'paintStatus' | 'storageBox' | null>(null);
 
-  const toggleDropdown = (key: 'manufacturer' | 'paintStatus' | 'storageBox') => {
+  const toggleDropdown = (key: 'manufacturer' | 'type' | 'paintStatus' | 'storageBox') => {
     setOpenDropdown((prev) => (prev === key ? null : key));
   };
 
-  const selectOption = (key: 'manufacturer' | 'storageBox', value: string) => {
+  const selectOption = (key: 'manufacturer' | 'type' | 'storageBox', value: string) => {
     setForm((prev) => ({ ...prev, [key]: value }));
     setOpenDropdown(null);
   };
@@ -70,15 +79,15 @@ const AddScreen = () => {
     setOpenDropdown(null);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!form.name.trim()) return;
-    addMiniature({
+    await addMiniature({
       name: form.name,
       brand: form.manufacturer,
       type: form.type,
       status: form.paintStatus,
       storageBox: form.storageBox,
-    }).catch(console.error);
+    });
     router.back();
   };
 
@@ -161,13 +170,42 @@ const AddScreen = () => {
 
           <View style={addStyles.fieldGroup}>
             <Text style={addStyles.label}>Type</Text>
-            <TextInput
-              style={addStyles.input}
-              placeholder="e.g., Infantry, Vehicle, Monster"
-              placeholderTextColor="#AAA"
-              value={form.type}
-              onChangeText={(v) => setForm((p) => ({ ...p, type: v }))}
-            />
+            <TouchableOpacity
+              style={addStyles.pickerButton}
+              onPress={() => toggleDropdown('type')}
+              activeOpacity={0.7}
+            >
+              <Text style={[addStyles.pickerButtonText, !form.type && { color: '#AAA' }]}>
+                {form.type || 'Select a type'}
+              </Text>
+              <Text style={addStyles.pickerChevron}>
+                {openDropdown === 'type' ? '▲' : '▾'}
+              </Text>
+            </TouchableOpacity>
+            {openDropdown === 'type' && (
+              <View style={addStyles.dropdown}>
+                {TYPE_OPTIONS.map((option) => (
+                  <TouchableOpacity
+                    key={option}
+                    style={[
+                      addStyles.dropdownItem,
+                      form.type === option && addStyles.dropdownItemSelected,
+                    ]}
+                    onPress={() => selectOption('type', option)}
+                    activeOpacity={0.7}
+                  >
+                    <Text
+                      style={[
+                        addStyles.dropdownItemText,
+                        form.type === option && addStyles.dropdownItemTextSelected,
+                      ]}
+                    >
+                      {option}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            )}
           </View>
 
           <View style={addStyles.fieldGroup}>
