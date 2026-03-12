@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 import {
   ScrollView,
   View,
@@ -6,72 +6,75 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
-} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useRouter } from 'expo-router';
-import { addStyles } from '@/styles/tabs/add.styles';
-import { addMiniature } from '@/database/miniature-actions';
-import { PaintStatusEnum } from '@/database/models/miniature.model';
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useRouter } from "expo-router";
+import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { addStyles } from "@/styles/tabs/add.styles";
+import { addMiniature } from "@/database/miniature-actions";
+import { PaintStatusEnum } from "@/database/models/miniature.model";
 import {
   BRAND_OPTIONS,
   PAINT_STATUS_OPTIONS,
   STORAGE_BOX_OPTIONS,
   TYPE_OPTIONS,
-} from '@/constants/miniature-options';
+} from "@/constants/miniature-options";
+import { AppColors } from "@/constants/theme";
+import { FormDropdown } from "@/components/form-dropdown/form-dropdown";
+import { FormField } from "@/components/form-field/form-field";
 
-type FormState = {
-  name: string;
-  manufacturer: string;
-  type: string;
-  paintStatus: PaintStatusEnum;
-  storageBox: string;
-  notes: string;
-};
+enum DropdownField {
+  Brand = "brand",
+  Type = "type",
+  Status = "status",
+  StorageBox = "storageBox",
+}
+
+const addMiniatureSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  brand: z.string(),
+  type: z.string(),
+  status: z.nativeEnum(PaintStatusEnum),
+  storageBox: z.string(),
+  notes: z.string(),
+});
+
+type AddMiniatureForm = z.infer<typeof addMiniatureSchema>;
+
+const toOptions = (values: string[]) =>
+  values.map((v) => ({ value: v, label: v }));
 
 const AddScreen = () => {
   const router = useRouter();
-  const [form, setForm] = useState<FormState>({
-    name: '',
-    manufacturer: '',
-    type: '',
-    paintStatus: PaintStatusEnum.Backlog,
-    storageBox: '',
-    notes: '',
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<AddMiniatureForm>({
+    resolver: zodResolver(addMiniatureSchema),
+    defaultValues: {
+      name: "",
+      brand: "",
+      type: "",
+      status: PaintStatusEnum.Backlog,
+      storageBox: "",
+      notes: "",
+    },
   });
-  const [openDropdown, setOpenDropdown] = useState<'manufacturer' | 'type' | 'paintStatus' | 'storageBox' | null>(null);
+  const [openDropdown, setOpenDropdown] = useState<DropdownField | null>(null);
 
-  const toggleDropdown = (key: 'manufacturer' | 'type' | 'paintStatus' | 'storageBox') => {
+  const toggleDropdown = (key: DropdownField) =>
     setOpenDropdown((prev) => (prev === key ? null : key));
-  };
 
-  const selectOption = (key: 'manufacturer' | 'type' | 'storageBox', value: string) => {
-    setForm((prev) => ({ ...prev, [key]: value }));
-    setOpenDropdown(null);
-  };
-
-  const selectPaintStatusEnum = (value: PaintStatusEnum) => {
-    setForm((prev) => ({ ...prev, paintStatus: value }));
-    setOpenDropdown(null);
-  };
-
-  const handleSubmit = async () => {
-    if (!form.name.trim()) return;
-    await addMiniature({
-      name: form.name,
-      brand: form.manufacturer,
-      type: form.type,
-      status: form.paintStatus,
-      storageBox: form.storageBox,
-    });
-    router.back();
-  };
-
-  const handleCancel = () => {
+  const onSubmit = async (data: AddMiniatureForm) => {
+    await addMiniature(data);
     router.back();
   };
 
   return (
-    <SafeAreaView style={addStyles.screen} edges={['top']}>
+    <SafeAreaView style={addStyles.screen} edges={["top"]}>
       <ScrollView
         style={addStyles.screen}
         contentContainerStyle={addStyles.scrollContent}
@@ -79,7 +82,10 @@ const AddScreen = () => {
         keyboardShouldPersistTaps="handled"
       >
         <View style={addStyles.header}>
-          <Image source={require('@/assets/images/logo.png')} style={addStyles.appIconImage} />
+          <Image
+            source={require("@/assets/images/logo.png")}
+            style={addStyles.appIconImage}
+          />
           <Text style={addStyles.appTitle}>MiniVault</Text>
         </View>
 
@@ -88,198 +94,129 @@ const AddScreen = () => {
             <Text style={addStyles.heroIconText}>✦</Text>
           </View>
           <Text style={addStyles.heroTitle}>Add Miniature</Text>
-          <Text style={addStyles.heroSubtitle}>Add a new model to your collection</Text>
+          <Text style={addStyles.heroSubtitle}>
+            Add a new model to your collection
+          </Text>
         </View>
 
         <View style={addStyles.formCard}>
-          <View style={addStyles.fieldGroup}>
-            <Text style={addStyles.label}>Name *</Text>
-            <TextInput
-              style={addStyles.input}
-              placeholder="e.g., Space Marine Captain"
-              placeholderTextColor="#AAA"
-              value={form.name}
-              onChangeText={(v) => setForm((p) => ({ ...p, name: v }))}
+          <FormField label="Name *" error={errors.name?.message}>
+            <Controller
+              control={control}
+              name="name"
+              render={({ field: { value, onChange } }) => (
+                <TextInput
+                  style={addStyles.input}
+                  placeholder="e.g., Space Marine Captain"
+                  placeholderTextColor={AppColors.textMuted}
+                  value={value}
+                  onChangeText={onChange}
+                />
+              )}
             />
-          </View>
+          </FormField>
 
-          <View style={addStyles.fieldGroup}>
-            <Text style={addStyles.label}>Manufacturer</Text>
-            <TouchableOpacity
-              style={addStyles.pickerButton}
-              onPress={() => toggleDropdown('manufacturer')}
-              activeOpacity={0.7}
-            >
-              <Text style={[addStyles.pickerButtonText, !form.manufacturer && { color: '#AAA' }]}>
-                {form.manufacturer || 'Select a manufacturer'}
-              </Text>
-              <Text style={addStyles.pickerChevron}>
-                {openDropdown === 'manufacturer' ? '▲' : '▾'}
-              </Text>
-            </TouchableOpacity>
-            {openDropdown === 'manufacturer' && (
-              <View style={addStyles.dropdown}>
-                {BRAND_OPTIONS.map((option) => (
-                  <TouchableOpacity
-                    key={option}
-                    style={[
-                      addStyles.dropdownItem,
-                      form.manufacturer === option && addStyles.dropdownItemSelected,
-                    ]}
-                    onPress={() => selectOption('manufacturer', option)}
-                    activeOpacity={0.7}
-                  >
-                    <Text
-                      style={[
-                        addStyles.dropdownItemText,
-                        form.manufacturer === option && addStyles.dropdownItemTextSelected,
-                      ]}
-                    >
-                      {option}
-                    </Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
-            )}
-          </View>
-
-          <View style={addStyles.fieldGroup}>
-            <Text style={addStyles.label}>Type</Text>
-            <TouchableOpacity
-              style={addStyles.pickerButton}
-              onPress={() => toggleDropdown('type')}
-              activeOpacity={0.7}
-            >
-              <Text style={[addStyles.pickerButtonText, !form.type && { color: '#AAA' }]}>
-                {form.type || 'Select a type'}
-              </Text>
-              <Text style={addStyles.pickerChevron}>
-                {openDropdown === 'type' ? '▲' : '▾'}
-              </Text>
-            </TouchableOpacity>
-            {openDropdown === 'type' && (
-              <View style={addStyles.dropdown}>
-                {TYPE_OPTIONS.map((option) => (
-                  <TouchableOpacity
-                    key={option}
-                    style={[
-                      addStyles.dropdownItem,
-                      form.type === option && addStyles.dropdownItemSelected,
-                    ]}
-                    onPress={() => selectOption('type', option)}
-                    activeOpacity={0.7}
-                  >
-                    <Text
-                      style={[
-                        addStyles.dropdownItemText,
-                        form.type === option && addStyles.dropdownItemTextSelected,
-                      ]}
-                    >
-                      {option}
-                    </Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
-            )}
-          </View>
-
-          <View style={addStyles.fieldGroup}>
-            <Text style={addStyles.label}>Paint Status</Text>
-            <TouchableOpacity
-              style={addStyles.pickerButton}
-              onPress={() => toggleDropdown('paintStatus')}
-              activeOpacity={0.7}
-            >
-              <Text style={addStyles.pickerButtonText}>
-                {PAINT_STATUS_OPTIONS.find((o) => o.value === form.paintStatus)?.label}
-              </Text>
-              <Text style={addStyles.pickerChevron}>
-                {openDropdown === 'paintStatus' ? '▲' : '▾'}
-              </Text>
-            </TouchableOpacity>
-            {openDropdown === 'paintStatus' && (
-              <View style={addStyles.dropdown}>
-                {PAINT_STATUS_OPTIONS.map((option) => (
-                  <TouchableOpacity
-                    key={option.value}
-                    style={[
-                      addStyles.dropdownItem,
-                      form.paintStatus === option.value && addStyles.dropdownItemSelected,
-                    ]}
-                    onPress={() => selectPaintStatusEnum(option.value)}
-                    activeOpacity={0.7}
-                  >
-                    <Text
-                      style={[
-                        addStyles.dropdownItemText,
-                        form.paintStatus === option.value && addStyles.dropdownItemTextSelected,
-                      ]}
-                    >
-                      {option.label}
-                    </Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
-            )}
-          </View>
-
-          <View style={addStyles.fieldGroup}>
-            <Text style={addStyles.label}>Storage Box</Text>
-            <TouchableOpacity
-              style={addStyles.pickerButton}
-              onPress={() => toggleDropdown('storageBox')}
-              activeOpacity={0.7}
-            >
-              <Text style={[addStyles.pickerButtonText, !form.storageBox && { color: '#AAA' }]}>
-                {form.storageBox || 'Select a box'}
-              </Text>
-              <Text style={addStyles.pickerChevron}>
-                {openDropdown === 'storageBox' ? '▲' : '▾'}
-              </Text>
-            </TouchableOpacity>
-            {openDropdown === 'storageBox' && (
-              <View style={addStyles.dropdown}>
-                {STORAGE_BOX_OPTIONS.map((option) => (
-                  <TouchableOpacity
-                    key={option}
-                    style={[
-                      addStyles.dropdownItem,
-                      form.storageBox === option && addStyles.dropdownItemSelected,
-                    ]}
-                    onPress={() => selectOption('storageBox', option)}
-                    activeOpacity={0.7}
-                  >
-                    <Text
-                      style={[
-                        addStyles.dropdownItemText,
-                        form.storageBox === option && addStyles.dropdownItemTextSelected,
-                      ]}
-                    >
-                      {option}
-                    </Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
-            )}
-          </View>
-
-          <View style={addStyles.fieldGroup}>
-            <Text style={addStyles.label}>Notes</Text>
-            <TextInput
-              style={addStyles.textArea}
-              placeholder="Add any notes about this miniature..."
-              placeholderTextColor="#AAA"
-              multiline
-              value={form.notes}
-              onChangeText={(v) => setForm((p) => ({ ...p, notes: v }))}
+          <FormField label="Manufacturer">
+            <Controller
+              control={control}
+              name="brand"
+              render={({ field: { value, onChange } }) => (
+                <FormDropdown
+                  options={toOptions(BRAND_OPTIONS)}
+                  value={value}
+                  onChange={(v) => {
+                    onChange(v);
+                    setOpenDropdown(null);
+                  }}
+                  placeholder="Select a manufacturer"
+                  isOpen={openDropdown === DropdownField.Brand}
+                  onToggle={() => toggleDropdown(DropdownField.Brand)}
+                />
+              )}
             />
-          </View>
+          </FormField>
+
+          <FormField label="Type">
+            <Controller
+              control={control}
+              name="type"
+              render={({ field: { value, onChange } }) => (
+                <FormDropdown
+                  options={toOptions(TYPE_OPTIONS)}
+                  value={value}
+                  onChange={(v) => {
+                    onChange(v);
+                    setOpenDropdown(null);
+                  }}
+                  placeholder="Select a type"
+                  isOpen={openDropdown === DropdownField.Type}
+                  onToggle={() => toggleDropdown(DropdownField.Type)}
+                />
+              )}
+            />
+          </FormField>
+
+          <FormField label="Paint Status">
+            <Controller
+              control={control}
+              name="status"
+              render={({ field: { value, onChange } }) => (
+                <FormDropdown
+                  options={PAINT_STATUS_OPTIONS}
+                  value={value}
+                  onChange={(v) => {
+                    onChange(v);
+                    setOpenDropdown(null);
+                  }}
+                  isOpen={openDropdown === DropdownField.Status}
+                  onToggle={() => toggleDropdown(DropdownField.Status)}
+                />
+              )}
+            />
+          </FormField>
+
+          <FormField label="Storage Box">
+            <Controller
+              control={control}
+              name="storageBox"
+              render={({ field: { value, onChange } }) => (
+                <FormDropdown
+                  options={toOptions(STORAGE_BOX_OPTIONS)}
+                  value={value}
+                  onChange={(v) => {
+                    onChange(v);
+                    setOpenDropdown(null);
+                  }}
+                  placeholder="Select a box"
+                  isOpen={openDropdown === DropdownField.StorageBox}
+                  onToggle={() => toggleDropdown(DropdownField.StorageBox)}
+                />
+              )}
+            />
+          </FormField>
+
+          <FormField label="Notes">
+            <Controller
+              control={control}
+              name="notes"
+              render={({ field: { value, onChange } }) => (
+                <TextInput
+                  style={addStyles.textArea}
+                  placeholder="Add any notes about this miniature..."
+                  placeholderTextColor={AppColors.textMuted}
+                  multiline
+                  value={value}
+                  onChangeText={onChange}
+                />
+              )}
+            />
+          </FormField>
         </View>
 
         <View style={addStyles.actions}>
           <TouchableOpacity
             style={addStyles.submitButton}
-            onPress={handleSubmit}
+            onPress={handleSubmit(onSubmit)}
             activeOpacity={0.85}
           >
             <Text style={addStyles.submitButtonIcon}>+</Text>
@@ -287,7 +224,7 @@ const AddScreen = () => {
           </TouchableOpacity>
           <TouchableOpacity
             style={addStyles.cancelButton}
-            onPress={handleCancel}
+            onPress={router.back}
             activeOpacity={0.7}
           >
             <Text style={addStyles.cancelButtonText}>Cancel</Text>

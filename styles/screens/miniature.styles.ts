@@ -119,7 +119,7 @@ export const miniatureDetailStyles = StyleSheet.create({
     backgroundColor: AppColors.white,
     borderRadius: 14,
     padding: 14,
-    shadowColor: '#000',
+    shadowColor: AppColors.shadow,
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.05,
     shadowRadius: 4,

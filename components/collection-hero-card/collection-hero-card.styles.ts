@@ -8,7 +8,7 @@ export const collectionHeroCardStyles = StyleSheet.create({
     marginBottom: 12,
   },
   label: {
-    color: 'rgba(255,255,255,0.8)',
+    color: AppColors.whiteAlpha80,
     fontSize: 13,
     marginBottom: 4,
   },
@@ -19,7 +19,7 @@ export const collectionHeroCardStyles = StyleSheet.create({
     lineHeight: 40,
   },
   subtitle: {
-    color: 'rgba(255,255,255,0.8)',
+    color: AppColors.whiteAlpha80,
     fontSize: 13,
     marginTop: 4,
     marginBottom: 16,
@@ -27,7 +27,7 @@ export const collectionHeroCardStyles = StyleSheet.create({
   progressTrack: {
     height: 6,
     borderRadius: 3,
-    backgroundColor: 'rgba(255,255,255,0.3)',
+    backgroundColor: AppColors.whiteAlpha30,
     overflow: 'hidden',
   },
   progressFill: {

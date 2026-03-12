@@ -47,15 +47,15 @@ export const rewardsStyles = StyleSheet.create({
   },
   heroAchievementsIcon: {
     fontSize: 14,
-    color: 'rgba(255,255,255,0.8)',
+    color: AppColors.whiteAlpha80,
   },
   heroAchievementsText: {
     fontSize: 13,
-    color: 'rgba(255,255,255,0.8)',
+    color: AppColors.whiteAlpha80,
     fontWeight: '500',
   },
   levelBadge: {
-    backgroundColor: 'rgba(255,255,255,0.25)',
+    backgroundColor: AppColors.whiteAlpha25,
     borderRadius: 12,
     paddingHorizontal: 12,
     paddingVertical: 4,
@@ -78,16 +78,16 @@ export const rewardsStyles = StyleSheet.create({
   },
   heroProgressLabel: {
     fontSize: 13,
-    color: 'rgba(255,255,255,0.85)',
+    color: AppColors.whiteAlpha85,
     fontWeight: '500',
   },
   heroProgressPct: {
     fontSize: 13,
-    color: 'rgba(255,255,255,0.7)',
+    color: AppColors.whiteAlpha70,
   },
   progressBarTrack: {
     height: 6,
-    backgroundColor: 'rgba(255,255,255,0.3)',
+    backgroundColor: AppColors.whiteAlpha30,
     borderRadius: 3,
     marginBottom: 20,
   },
@@ -111,11 +111,11 @@ export const rewardsStyles = StyleSheet.create({
   },
   heroStatLabel: {
     fontSize: 11,
-    color: 'rgba(255,255,255,0.7)',
+    color: AppColors.whiteAlpha70,
   },
   heroStatDivider: {
     width: 1,
-    backgroundColor: 'rgba(255,255,255,0.3)',
+    backgroundColor: AppColors.whiteAlpha30,
     marginHorizontal: 8,
   },
 
@@ -142,7 +142,7 @@ export const rewardsStyles = StyleSheet.create({
     flexDirection: 'row',
     gap: 14,
     marginBottom: 10,
-    shadowColor: '#000',
+    shadowColor: AppColors.shadow,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.06,
     shadowRadius: 8,

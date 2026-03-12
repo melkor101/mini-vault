@@ -9,7 +9,7 @@ export const miniatureCardStyles = StyleSheet.create({
     flexDirection: 'row',
     gap: 14,
     marginBottom: 12,
-    shadowColor: '#000',
+    shadowColor: AppColors.shadow,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.06,
     shadowRadius: 8,

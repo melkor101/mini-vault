@@ -18,6 +18,7 @@ export type Miniature = {
   type: string;
   status: MiniatureStatus;
   storageBox: string;
+  notes: string;
   lastUpdated: string;
   thumbnailColors: [string, string];
   badgeColor: string;
@@ -31,6 +32,7 @@ export class MiniatureModel extends Model {
   @field('type') type!: string;
   @field('status') status!: MiniatureStatus;
   @field('storage_box') storageBox!: string;
+  @field('notes') notes!: string;
   @field('last_updated') lastUpdated!: string;
   @field('thumbnail_colors') thumbnailColorsRaw!: string;
   @field('badge_color') badgeColor!: string;
@@ -47,6 +49,7 @@ export class MiniatureModel extends Model {
       type: this.type,
       status: this.status,
       storageBox: this.storageBox,
+      notes: this.notes,
       lastUpdated: this.lastUpdated,
       thumbnailColors: this.thumbnailColors,
       badgeColor: this.badgeColor,
