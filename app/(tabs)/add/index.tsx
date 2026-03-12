@@ -12,37 +12,12 @@ import { useRouter } from 'expo-router';
 import { addStyles } from '@/styles/tabs/add.styles';
 import { addMiniature } from '@/database/miniature-actions';
 import { PaintStatusEnum } from '@/database/models/miniature.model';
-
-const TYPE_OPTIONS = [
-  'Infantry',
-  'Tank',
-  'Vehicle',
-  'Cavalry',
-  'Monster',
-  'Hero',
-];
-
-const BRAND_OPTIONS = [
-  'Games Workshop',
-  'Reaper Miniatures',
-  'Privateer Press',
-  'Mantic Games',
-  'Corvus Belli',
-  'Warlord Games',
-  'Battlefront Miniatures',
-  'Wyrd Miniatures',
-  'Modiphius Entertainment',
-  'Para Bellum Wargames',
-];
-
-const PAINT_STATUS_OPTIONS: { label: string; value: PaintStatusEnum }[] = [
-  { label: 'Backlog', value: PaintStatusEnum.Backlog },
-  { label: 'Unpainted', value: PaintStatusEnum.Unpainted },
-  { label: 'Primed', value: PaintStatusEnum.Primed },
-  { label: 'In Progress', value: PaintStatusEnum.InProgress },
-  { label: 'Completed', value: PaintStatusEnum.Completed },
-];
-const STORAGE_BOX_OPTIONS = ['Box A', 'Box B', 'Box C'];
+import {
+  BRAND_OPTIONS,
+  PAINT_STATUS_OPTIONS,
+  STORAGE_BOX_OPTIONS,
+  TYPE_OPTIONS,
+} from '@/constants/miniature-options';
 
 type FormState = {
   name: string;
