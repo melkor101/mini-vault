@@ -22,6 +22,9 @@ export const paintingPipelineStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  iconText: {
+    fontSize: 18,
+  },
   title: {
     fontSize: 17,
     fontWeight: '600',

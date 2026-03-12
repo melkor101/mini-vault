@@ -49,18 +49,26 @@ const CollectionScreen = () => {
           <Text style={collectionStyles.countText}>• {miniatures.length} of {miniatures.length} miniatures</Text>
         </View>
 
-        {miniatures.map((item) => (
-          <MiniatureCard
-            key={item.id}
-            name={item.name}
-            brand={item.brand}
-            type={item.type}
-            status={item.status}
-            thumbnailColors={item.thumbnailColors}
-            badgeColor={item.badgeColor}
-            onPress={() => router.push(`/miniature/${item.id}`)}
-          />
-        ))}
+        {miniatures.length === 0 ? (
+          <View style={collectionStyles.emptyState}>
+            <Text style={collectionStyles.emptyIcon}>🗂</Text>
+            <Text style={collectionStyles.emptyTitle}>No miniatures yet</Text>
+            <Text style={collectionStyles.emptySubtitle}>Add your first miniature to start tracking your collection</Text>
+          </View>
+        ) : (
+          miniatures.map((item) => (
+            <MiniatureCard
+              key={item.id}
+              name={item.name}
+              brand={item.brand}
+              type={item.type}
+              status={item.status}
+              thumbnailColors={item.thumbnailColors}
+              badgeColor={item.badgeColor}
+              onPress={() => router.push(`/miniature/${item.id}`)}
+            />
+          ))
+        )}
       </ScrollView>
     </SafeAreaView>
   );

@@ -87,6 +87,15 @@ export const AppColors = {
   darkText: '#FFFFFF',
   darkTextMuted: 'rgba(255,255,255,0.45)',
   darkTextSub: 'rgba(255,255,255,0.65)',
+
+  shadow: '#000000',
+
+  whiteAlpha20: 'rgba(255,255,255,0.20)',
+  whiteAlpha25: 'rgba(255,255,255,0.25)',
+  whiteAlpha30: 'rgba(255,255,255,0.30)',
+  whiteAlpha70: 'rgba(255,255,255,0.70)',
+  whiteAlpha80: 'rgba(255,255,255,0.80)',
+  whiteAlpha85: 'rgba(255,255,255,0.85)',
 };
 
 export const Fonts = Platform.select({

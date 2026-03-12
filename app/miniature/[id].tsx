@@ -8,6 +8,7 @@ import { miniatureDetailStyles } from '@/styles/screens/miniature.styles';
 
 
 const STATUS_CONFIG = {
+  backlog:    { label: 'Backlog',     icon: '◫',  color: AppColors.unpainted, bg: AppColors.unpaintedBg },
   completed:  { label: 'Completed',   icon: '✓', color: AppColors.done,      bg: AppColors.doneBg },
   inProgress: { label: 'In Progress', icon: '✎', color: AppColors.painting,  bg: AppColors.paintingBg },
   primed:     { label: 'Primed',      icon: '🔥', color: AppColors.primed,    bg: AppColors.primedBg },
@@ -18,7 +19,10 @@ const MiniatureDetailScreen = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
   const miniatures = useMiniatures();
-  const miniature = miniatures.find((m) => m.id === id) ?? miniatures[0];
+  const miniature = miniatures.find((m) => m.id === id);
+
+  if (!miniature) return null;
+
   const statusCfg = STATUS_CONFIG[miniature.status];
 
   return (

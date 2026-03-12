@@ -19,6 +19,7 @@ export const MiniatureService = {
         record.type = data.type;
         record.status = data.status;
         record.storageBox = data.storageBox;
+        record.notes = data.notes;
         record.lastUpdated = data.lastUpdated;
         record.thumbnailColorsRaw = JSON.stringify(data.thumbnailColors);
         record.badgeColor = data.badgeColor;
@@ -36,6 +37,7 @@ export const MiniatureService = {
         if (data.type !== undefined) r.type = data.type;
         if (data.status !== undefined) r.status = data.status;
         if (data.storageBox !== undefined) r.storageBox = data.storageBox;
+        if (data.notes !== undefined) r.notes = data.notes;
         if (data.lastUpdated !== undefined) r.lastUpdated = data.lastUpdated;
         if (data.thumbnailColors !== undefined) r.thumbnailColorsRaw = JSON.stringify(data.thumbnailColors);
         if (data.badgeColor !== undefined) r.badgeColor = data.badgeColor;

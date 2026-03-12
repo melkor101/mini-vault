@@ -1,7 +1,7 @@
 import { appSchema, tableSchema } from '@nozbe/watermelondb';
 
 export const dbSchema = appSchema({
-  version: 1,
+  version: 2,
   tables: [
     tableSchema({
       name: 'miniatures',
@@ -14,6 +14,7 @@ export const dbSchema = appSchema({
         { name: 'last_updated', type: 'string' },
         { name: 'thumbnail_colors', type: 'string' },
         { name: 'badge_color', type: 'string' },
+        { name: 'notes', type: 'string', isOptional: true },
       ],
     }),
     tableSchema({

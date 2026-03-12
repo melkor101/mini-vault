@@ -8,7 +8,7 @@ export const statCardStyles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    color: 'rgba(255,255,255,0.85)',
+    color: AppColors.whiteAlpha85,
     fontSize: 13,
     marginBottom: 8,
   },
@@ -19,7 +19,7 @@ export const statCardStyles = StyleSheet.create({
     lineHeight: 44,
   },
   percentage: {
-    color: 'rgba(255,255,255,0.7)',
+    color: AppColors.whiteAlpha70,
     fontSize: 12,
     marginTop: 4,
   },

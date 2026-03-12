@@ -1,7 +1,15 @@
 import { Model } from '@nozbe/watermelondb';
 import { field } from '@nozbe/watermelondb/decorators';
 
-export type MiniatureStatus = 'completed' | 'inProgress' | 'primed' | 'unpainted';
+export enum PaintStatusEnum {
+  Backlog = 'backlog',
+  Unpainted = 'unpainted',
+  Primed = 'primed',
+  InProgress = 'inProgress',
+  Completed = 'completed',
+}
+
+export type MiniatureStatus = PaintStatusEnum;
 
 export type Miniature = {
   id: string;
@@ -10,6 +18,7 @@ export type Miniature = {
   type: string;
   status: MiniatureStatus;
   storageBox: string;
+  notes: string;
   lastUpdated: string;
   thumbnailColors: [string, string];
   badgeColor: string;
@@ -23,6 +32,7 @@ export class MiniatureModel extends Model {
   @field('type') type!: string;
   @field('status') status!: MiniatureStatus;
   @field('storage_box') storageBox!: string;
+  @field('notes') notes!: string;
   @field('last_updated') lastUpdated!: string;
   @field('thumbnail_colors') thumbnailColorsRaw!: string;
   @field('badge_color') badgeColor!: string;
@@ -39,6 +49,7 @@ export class MiniatureModel extends Model {
       type: this.type,
       status: this.status,
       storageBox: this.storageBox,
+      notes: this.notes,
       lastUpdated: this.lastUpdated,
       thumbnailColors: this.thumbnailColors,
       badgeColor: this.badgeColor,

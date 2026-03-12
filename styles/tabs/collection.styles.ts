@@ -49,7 +49,7 @@ export const collectionStyles = StyleSheet.create({
     padding: 12,
     gap: 8,
     marginBottom: 12,
-    shadowColor: '#000',
+    shadowColor: AppColors.shadow,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.06,
     shadowRadius: 8,
@@ -77,7 +77,7 @@ export const collectionStyles = StyleSheet.create({
     paddingHorizontal: 14,
     paddingVertical: 8,
     gap: 6,
-    shadowColor: '#000',
+    shadowColor: AppColors.shadow,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.06,
     shadowRadius: 8,
@@ -94,5 +94,23 @@ export const collectionStyles = StyleSheet.create({
   countText: {
     fontSize: 13,
     color: AppColors.textSecondary,
+  },
+  emptyState: {
+    alignItems: 'center',
+    paddingVertical: 64,
+    gap: 12,
+  },
+  emptyIcon: {
+    fontSize: 48,
+  },
+  emptyTitle: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: AppColors.textPrimary,
+  },
+  emptySubtitle: {
+    fontSize: 14,
+    color: AppColors.textSecondary,
+    textAlign: 'center',
   },
 });
