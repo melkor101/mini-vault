@@ -23,6 +23,7 @@ export const MiniatureService = {
         record.lastUpdated = data.lastUpdated;
         record.thumbnailColorsRaw = JSON.stringify(data.thumbnailColors);
         record.badgeColor = data.badgeColor;
+        record.image = data.image ?? '';
       });
     });
     return created.toMiniature();
@@ -41,6 +42,7 @@ export const MiniatureService = {
         if (data.lastUpdated !== undefined) r.lastUpdated = data.lastUpdated;
         if (data.thumbnailColors !== undefined) r.thumbnailColorsRaw = JSON.stringify(data.thumbnailColors);
         if (data.badgeColor !== undefined) r.badgeColor = data.badgeColor;
+        if (data.image !== undefined) r.image = data.image;
       });
     });
   },

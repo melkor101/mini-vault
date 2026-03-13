@@ -11,5 +11,14 @@ export const migrations = schemaMigrations({
         }),
       ],
     },
+    {
+      toVersion: 3,
+      steps: [
+        addColumns({
+          table: 'miniatures',
+          columns: [{ name: 'image', type: 'string', isOptional: true }],
+        }),
+      ],
+    },
   ],
 });

@@ -52,12 +52,16 @@ const MiniatureDetailScreen = () => {
         </TouchableOpacity>
 
         <View style={miniatureDetailStyles.heroWrapper}>
-          <LinearGradient
-            colors={miniature.thumbnailColors}
-            style={miniatureDetailStyles.heroGradient}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-          />
+          {miniature.image ? (
+            <Image source={{ uri: miniature.image }} style={miniatureDetailStyles.heroGradient} />
+          ) : (
+            <LinearGradient
+              colors={miniature.thumbnailColors}
+              style={miniatureDetailStyles.heroGradient}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+            />
+          )}
           <View style={[miniatureDetailStyles.heroBadge, { backgroundColor: miniature.badgeColor }]} />
         </View>
 

@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { AppColors } from '@/constants/theme';
 import { miniatureCardStyles } from './miniature-card.styles';
@@ -12,6 +12,7 @@ type Props = {
   status: MiniatureStatus;
   thumbnailColors: [string, string];
   badgeColor: string;
+  image?: string;
   onPress?: () => void;
 };
 
@@ -23,18 +24,22 @@ const STATUS_CONFIG = {
   unpainted:  { label: 'Unpainted',   icon: '○',  color: AppColors.unpainted, bg: AppColors.unpaintedBg },
 };
 
-export const MiniatureCard = ({ name, brand, type, status, thumbnailColors, badgeColor, onPress }: Props) => {
+export const MiniatureCard = ({ name, brand, type, status, thumbnailColors, badgeColor, image, onPress }: Props) => {
   const statusCfg = STATUS_CONFIG[status];
 
   return (
     <TouchableOpacity style={miniatureCardStyles.card} onPress={onPress} activeOpacity={0.75}>
       <View style={miniatureCardStyles.thumbnailWrapper}>
-        <LinearGradient
-          colors={thumbnailColors}
-          style={miniatureCardStyles.thumbnail}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-        />
+        {image ? (
+          <Image source={{ uri: image }} style={miniatureCardStyles.thumbnail} />
+        ) : (
+          <LinearGradient
+            colors={thumbnailColors}
+            style={miniatureCardStyles.thumbnail}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+          />
+        )}
         <View style={[miniatureCardStyles.badge, { backgroundColor: badgeColor }]} />
       </View>
 

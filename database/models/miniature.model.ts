@@ -22,6 +22,7 @@ export type Miniature = {
   lastUpdated: string;
   thumbnailColors: [string, string];
   badgeColor: string;
+  image: string;
 };
 
 export class MiniatureModel extends Model {
@@ -36,6 +37,7 @@ export class MiniatureModel extends Model {
   @field('last_updated') lastUpdated!: string;
   @field('thumbnail_colors') thumbnailColorsRaw!: string;
   @field('badge_color') badgeColor!: string;
+  @field('image') image!: string;
 
   get thumbnailColors(): [string, string] {
     return JSON.parse(this.thumbnailColorsRaw);
@@ -53,6 +55,7 @@ export class MiniatureModel extends Model {
       lastUpdated: this.lastUpdated,
       thumbnailColors: this.thumbnailColors,
       badgeColor: this.badgeColor,
+      image: this.image,
     };
   }
 }

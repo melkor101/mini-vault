@@ -65,6 +65,7 @@ const CollectionScreen = () => {
               status={item.status}
               thumbnailColors={item.thumbnailColors}
               badgeColor={item.badgeColor}
+              image={item.image}
               onPress={() => router.push(`/miniature/${item.id}`)}
             />
           ))
