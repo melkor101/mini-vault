@@ -1,50 +1,89 @@
-# Welcome to your Expo app 👋
+# MiniVault
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A mobile app for tabletop miniature hobbyists to catalog their collection, track painting progress, and organize miniatures into physical storage.
 
-## Get started
+## Features
 
-1. Install dependencies
+- **Collection tracking** — catalog miniatures with name, manufacturer, type, notes, and photos
+- **Painting pipeline** — 5-stage workflow: Backlog → Unpainted → Primed → In Progress → Completed
+- **Dashboard analytics** — status breakdown, progress metrics, recent activity, and weekly stats
+- **Storage management** — organize miniatures into boxes, group boxes by location
+- **Rewards system** — XP-based leveling with achievements
 
-   ```bash
-   npm install
-   ```
+## Tech Stack
 
-2. Start the app
+| Layer | Technology |
+|---|---|
+| Framework | Expo SDK 54 / React Native 0.81 |
+| Language | TypeScript 5.9 |
+| Navigation | Expo Router 6 (file-based) |
+| Database | WatermelonDB 0.28 + expo-sqlite 16 |
+| Forms | react-hook-form + zod |
+| UI | expo-linear-gradient, react-native-svg, expo-image-picker |
 
-   ```bash
-   npx expo start
-   ```
+## Project Structure
 
-In the output, you'll find options to open the app in a
+```
+app/                    Screens (Expo Router file-based routing)
+  (tabs)/               Bottom tab navigator
+    home/               Dashboard with analytics
+    collection/         Full collection list
+    add/                Add miniature form
+    boxes/              Storage boxes and locations
+    rewards/            Achievements and XP
+  miniature/[id].tsx    Miniature detail (stack)
+  box/[id].tsx          Box detail (stack)
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+components/             Reusable UI components
+constants/              Theme colors, fonts, dropdown options
+database/               WatermelonDB schema, models, services
+  models/               ORM models (Miniature, StorageBox, Location, Reward)
+  *-service.ts          CRUD service layer
+  *-actions.ts          High-level action helpers
+hooks/                  Reactive data hooks (use-miniatures, use-boxes, etc.)
+styles/                 Co-located StyleSheet files
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Database Schema
 
-## Learn more
+Four tables at schema version 3:
 
-To learn more about developing your project with Expo, look at the following resources:
+- **miniatures** — name, brand, type, status, storage_box, notes, image, thumbnail_colors, badge_color, last_updated
+- **storage_boxes** — name, color, location_id
+- **locations** — icon, name
+- **rewards** — xp, level, unlocked_ids
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+Migration history: v2 added `notes`, v3 added `image`.
 
-## Join the community
+## Getting Started
 
-Join our community of developers creating universal apps.
+```bash
+npm install
+npx expo start
+```
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Then open in iOS simulator, Android emulator, or Expo Go.
+
+### Platform-specific commands
+
+```bash
+npm run ios       # iOS simulator
+npm run android   # Android emulator
+npm run web       # Web browser
+npm run lint      # ESLint
+```
+
+## Architecture Notes
+
+- **No global state library** — all persistent state comes from WatermelonDB reactive queries via `useQuery`; UI state is local `useState`
+- **Data flow**: Database → Models → Services → Actions → Hooks → Components
+- **Styles**: Always in a co-located `component-name.styles.ts` file, never inline
+- **Routing**: New screens are added by creating files in `app/`. Groups use parentheses (e.g. `(tabs)`)
+- **Path alias**: `@/` maps to the project root
+
+## Conventions
+
+- Components: named arrow functions with `export const`
+- Route screens: arrow function with `export default`
+- Colors: always use `AppColors` from `@/constants/theme`, never hardcode hex values
+- Commit format: `type(scope): lowercase description`
